@@ -22,7 +22,7 @@
 
 import { useState, useMemo } from "react";
 import { Platform, Alert } from "react-native";
-import { PurchasesPackage } from "react-native-purchases";
+import { PRODUCT_CATEGORY, PurchasesPackage } from "react-native-purchases";
 import { useRevenueCat } from "@/contexts/RevenueCatProvider";
 
 /**
@@ -164,7 +164,7 @@ export function usePurchases() {
     if (introPrice) {
       const introPriceString =
         introPrice.priceString || introPrice.price?.toString();
-      const introPeriod = introPrice.subscriptionPeriod;
+      const introPeriod = introPrice.period;
       const introCycles = introPrice.cycles;
 
       // If intro price is 0, it's a free trial
@@ -258,7 +258,7 @@ export function usePurchases() {
 
       // Fallback to parsing subscription period if periodNumberOfUnits/periodUnit not available
       const cycles = introPrice.cycles || 1;
-      const period = introPrice.subscriptionPeriod;
+      const period = introPrice.period;
 
       if (period) {
         const parsedPeriod = parseSubscriptionPeriod(period);
@@ -298,7 +298,8 @@ export function usePurchases() {
     }
 
     // Check if it's a subscription (has subscription period)
-    const isSubscription = storeProduct?.subscriptionPeriod != null;
+    const isSubscription =
+      storeProduct?.productCategory === PRODUCT_CATEGORY.SUBSCRIPTION;
 
     if (isSubscription) {
       return "Subscribe now";
@@ -313,8 +314,7 @@ export function usePurchases() {
    */
   const formatPackageTitle = (packageItem: PurchasesPackage): string => {
     // Try different title sources
-    const title =
-      packageItem.product?.title || packageItem.product?.localizedTitle;
+    const title = packageItem.product?.title;
 
     if (title) return title;
 
