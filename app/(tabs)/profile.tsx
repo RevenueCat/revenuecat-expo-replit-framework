@@ -11,7 +11,12 @@
  * - Debug information for development
  */
 
-import { Platform, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
@@ -36,7 +41,7 @@ export default function ProfileScreen() {
   const errorMessage = getErrorMessage();
   const tintColor = useThemeColor({}, "tint");
 
-  const {top } = useSafeAreaInsets();
+  const { top } = useSafeAreaInsets();
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "N/A";
@@ -46,18 +51,26 @@ export default function ProfileScreen() {
   return (
     <ThemedView style={styles.container}>
       <StatusBar style="auto" />
-      <ScrollView style={styles.scrollView} contentContainerStyle={[styles.contentContainer, { paddingTop: top + 16 }]}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={[
+          styles.contentContainer,
+          { paddingTop: top + 16 },
+        ]}
+      >
         {/* Profile Header */}
         <ThemedView style={styles.profileHeader}>
           <ThemedText style={styles.profileIcon}>👤</ThemedText>
           <ThemedText type="title">My Profile</ThemedText>
-          <ThemedText style={styles.subtitle}>Account & Subscription Details</ThemedText>
+          <ThemedText style={styles.subtitle}>
+            Account & Subscription Details
+          </ThemedText>
         </ThemedView>
 
         {/* Account Status */}
         <ThemedView style={styles.section}>
           <ThemedText type="subtitle">Account Status</ThemedText>
-          
+
           {isLoading ? (
             <ThemedView style={styles.statusCard}>
               <ThemedText>⏳ Loading account info...</ThemedText>
@@ -77,7 +90,7 @@ export default function ProfileScreen() {
               <ThemedText type="defaultSemiBold">🆓 Free Account</ThemedText>
               <ThemedText>Upgrade to unlock premium features</ThemedText>
               <TouchableOpacity
-                style={[styles.upgradeButton, { backgroundColor: tintColor }]}
+                style={[styles.upgradeButton]}
                 onPress={() => router.push("/paywall")}
               >
                 <ThemedText style={styles.upgradeButtonText}>
@@ -92,7 +105,7 @@ export default function ProfileScreen() {
         {customerInfo && (
           <ThemedView style={styles.section}>
             <ThemedText type="subtitle">Customer Information</ThemedText>
-            
+
             <ThemedView style={styles.infoCard}>
               <ThemedView style={styles.infoRow}>
                 <ThemedText style={styles.infoLabel}>Customer ID:</ThemedText>
@@ -100,14 +113,14 @@ export default function ProfileScreen() {
                   {customerInfo.originalAppUserId || "N/A"}
                 </ThemedText>
               </ThemedView>
-              
+
               <ThemedView style={styles.infoRow}>
                 <ThemedText style={styles.infoLabel}>First Seen:</ThemedText>
                 <ThemedText style={styles.infoValue}>
                   {formatDate(customerInfo.firstSeen)}
                 </ThemedText>
               </ThemedView>
-              
+
               <ThemedView style={styles.infoRow}>
                 <ThemedText style={styles.infoLabel}>Last Updated:</ThemedText>
                 <ThemedText style={styles.infoValue}>
@@ -122,12 +135,16 @@ export default function ProfileScreen() {
         {activeEntitlements.length > 0 && (
           <ThemedView style={styles.section}>
             <ThemedText type="subtitle">Active Subscriptions</ThemedText>
-            
+
             <ThemedView style={styles.infoCard}>
               {activeEntitlements.map((entitlement, index) => (
                 <ThemedView key={index} style={styles.entitlementItem}>
-                  <ThemedText style={styles.entitlementName}>✅ {entitlement}</ThemedText>
-                  <ThemedText style={styles.entitlementStatus}>Active</ThemedText>
+                  <ThemedText style={styles.entitlementName}>
+                    ✅ {entitlement}
+                  </ThemedText>
+                  <ThemedText style={styles.entitlementStatus}>
+                    Active
+                  </ThemedText>
                 </ThemedView>
               ))}
             </ThemedView>
@@ -138,15 +155,16 @@ export default function ProfileScreen() {
         {currentOffering && (
           <ThemedView style={styles.section}>
             <ThemedText type="subtitle">Available Plans</ThemedText>
-            
+
             <ThemedView style={styles.infoCard}>
               <ThemedText style={styles.offeringTitle}>
                 {currentOffering.identifier}
               </ThemedText>
               <ThemedText style={styles.offeringDescription}>
-                {currentOffering.availablePackages?.length || 0} subscription options available
+                {currentOffering.availablePackages?.length || 0} subscription
+                options available
               </ThemedText>
-              
+
               <TouchableOpacity
                 style={styles.viewPlansButton}
                 onPress={() => router.push("/paywall")}
@@ -162,20 +180,25 @@ export default function ProfileScreen() {
         {/* Platform Information */}
         <ThemedView style={styles.section}>
           <ThemedText type="subtitle">Platform Info</ThemedText>
-          
+
           <ThemedView style={styles.infoCard}>
             <ThemedView style={styles.infoRow}>
               <ThemedText style={styles.infoLabel}>Platform:</ThemedText>
               <ThemedText style={styles.infoValue}>{Platform.OS}</ThemedText>
             </ThemedView>
-            
+
             <ThemedView style={styles.infoRow}>
               <ThemedText style={styles.infoLabel}>Configuration:</ThemedText>
-              <ThemedText style={[styles.infoValue, isConfigured() ? styles.successText : styles.errorText]}>
+              <ThemedText
+                style={[
+                  styles.infoValue,
+                  isConfigured() ? styles.successText : styles.errorText,
+                ]}
+              >
                 {isConfigured() ? "✅ Configured" : "❌ Not Configured"}
               </ThemedText>
             </ThemedView>
-            
+
             {errorMessage && (
               <ThemedView style={styles.infoRow}>
                 <ThemedText style={styles.infoLabel}>Status:</ThemedText>
@@ -190,19 +213,23 @@ export default function ProfileScreen() {
         {/* Account Actions */}
         <ThemedView style={styles.section}>
           <ThemedText type="subtitle">Account Actions</ThemedText>
-          
+
           <TouchableOpacity
             style={styles.actionButton}
             onPress={() => router.push("/")}
           >
-            <ThemedText style={styles.actionButtonText}>🏠 Back to Home</ThemedText>
+            <ThemedText style={styles.actionButtonText}>
+              🏠 Back to Home
+            </ThemedText>
           </TouchableOpacity>
-          
+
           <TouchableOpacity
             style={styles.actionButton}
             onPress={() => router.push("/paywall")}
           >
-            <ThemedText style={styles.actionButtonText}>💎 View Premium Options</ThemedText>
+            <ThemedText style={styles.actionButtonText}>
+              💎 View Premium Options
+            </ThemedText>
           </TouchableOpacity>
         </ThemedView>
 
@@ -210,7 +237,7 @@ export default function ProfileScreen() {
         {__DEV__ && (
           <ThemedView style={styles.section}>
             <ThemedText type="subtitle">Debug Information</ThemedText>
-            
+
             <ThemedView style={[styles.infoCard, styles.debugCard]}>
               <ThemedText style={styles.debugText}>Development Mode</ThemedText>
               <ThemedText style={styles.debugText}>
@@ -333,14 +360,17 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   upgradeButton: {
+    backgroundColor: "rgba(0, 122, 255, 0.1)",
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 16,
     marginTop: 12,
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "rgba(0, 122, 255, 0.3)",
   },
   upgradeButtonText: {
-    color: "white",
+    color: "#007AFF",
     fontWeight: "600",
   },
   viewPlansButton: {

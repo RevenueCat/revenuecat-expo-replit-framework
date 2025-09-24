@@ -23,7 +23,7 @@
 import { useState } from "react";
 import { Platform, Alert } from "react-native";
 import { PurchasesPackage } from "react-native-purchases";
-import { useRevenueCat } from "@/components/RevenueCatProvider";
+import { useRevenueCat } from "@/contexts/RevenueCatProvider";
 
 /**
  * Enhanced purchases hook with additional functionality and error handling

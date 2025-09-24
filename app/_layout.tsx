@@ -23,7 +23,7 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { RevenueCatProvider } from "@/components/RevenueCatProvider";
+import { RevenueCatProvider } from "@/contexts/RevenueCatProvider";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
