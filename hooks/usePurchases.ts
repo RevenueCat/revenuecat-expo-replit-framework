@@ -328,9 +328,9 @@ export function usePurchases() {
   /**
    * Check if RevenueCat is properly configured
    */
-  const isConfigured = (): boolean => {
+  const isConfigured = useMemo((): boolean => {
     return revenueCatContext.isInitialized && !revenueCatContext.error;
-  };
+  }, [revenueCatContext.isInitialized, revenueCatContext.error]);
 
   /**
    * Get user-friendly error message
@@ -367,6 +367,7 @@ export function usePurchases() {
     activeEntitlements,
     packages,
     errorMessage,
+    isConfigured,
 
     // Utility functions
     hasEntitlement,
@@ -375,7 +376,6 @@ export function usePurchases() {
     formatPackageTitle,
     getTrialInfo,
     getPurchaseButtonText,
-    isConfigured,
   };
 }
 
