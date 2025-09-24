@@ -20,7 +20,7 @@
  * - Cross-platform compatibility
  */
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Platform, Alert } from "react-native";
 import { PurchasesPackage } from "react-native-purchases";
 import { useRevenueCat } from "@/contexts/RevenueCatProvider";
@@ -123,16 +123,16 @@ export function usePurchases() {
   /**
    * Get all active entitlements
    */
-  const getActiveEntitlements = (): string[] => {
-    const activeEntitlements =
+  const activeEntitlements = useMemo((): string[] => {
+    const activeEntitlementsObj =
       revenueCatContext.customerInfo?.entitlements?.active;
-    return activeEntitlements ? Object.keys(activeEntitlements) : [];
-  };
+    return activeEntitlementsObj ? Object.keys(activeEntitlementsObj) : [];
+  }, [revenueCatContext.customerInfo?.entitlements?.active]);
 
   /**
    * Get packages sorted by price (lowest to highest)
    */
-  const getPackagesSortedByPrice = () => {
+  const packagesSortedByPrice = useMemo(() => {
     const packages = revenueCatContext.currentOffering?.availablePackages || [];
 
     return [...packages].sort((a, b) => {
@@ -140,7 +140,7 @@ export function usePurchases() {
       const priceB = b.product?.price || 0;
       return priceA - priceB;
     });
-  };
+  }, [revenueCatContext.currentOffering?.availablePackages]);
 
   /**
    * Get a specific package by type
@@ -341,7 +341,7 @@ export function usePurchases() {
   /**
    * Get user-friendly error message
    */
-  const getErrorMessage = (): string | null => {
+  const errorMessage = useMemo((): string | null => {
     if (!revenueCatContext.error) return null;
 
     // Provide more helpful error messages
@@ -354,7 +354,7 @@ export function usePurchases() {
     }
 
     return revenueCatContext.error;
-  };
+  }, [revenueCatContext.error]);
 
   // Return all the functionality
   return {
@@ -369,17 +369,19 @@ export function usePurchases() {
     purchasePackage,
     restorePurchases,
 
+    // Computed values
+    activeEntitlements,
+    packagesSortedByPrice,
+    errorMessage,
+
     // Utility functions
     hasEntitlement,
-    getActiveEntitlements,
-    getPackagesSortedByPrice,
     getPackageByType,
     formatPackagePrice,
     formatPackageTitle,
     getTrialInfo,
     getPurchaseButtonText,
     isConfigured,
-    getErrorMessage,
   };
 }
 
@@ -409,7 +411,7 @@ export function usePaywall() {
     isLoading,
     error,
     isConfigured,
-    getPackagesSortedByPrice,
+    packagesSortedByPrice,
     formatPackagePrice,
     formatPackageTitle,
     getTrialInfo,
@@ -417,13 +419,12 @@ export function usePaywall() {
   } = usePurchases();
 
   const packages = currentOffering?.availablePackages || [];
-  const sortedPackages = getPackagesSortedByPrice();
 
   return {
     // Offerings
     offering: currentOffering,
     packages,
-    sortedPackages,
+    sortedPackages: packagesSortedByPrice,
     hasPackages: packages.length > 0,
 
     // Actions
