@@ -130,16 +130,10 @@ export function usePurchases() {
   }, [revenueCatContext.customerInfo?.entitlements?.active]);
 
   /**
-   * Get packages sorted by price (lowest to highest)
+   * Get packages in their configured order from RevenueCat
    */
-  const packagesSortedByPrice = useMemo(() => {
-    const packages = revenueCatContext.currentOffering?.availablePackages || [];
-
-    return [...packages].sort((a, b) => {
-      const priceA = a.product?.price || 0;
-      const priceB = b.product?.price || 0;
-      return priceA - priceB;
-    });
+  const packages = useMemo(() => {
+    return revenueCatContext.currentOffering?.availablePackages || [];
   }, [revenueCatContext.currentOffering?.availablePackages]);
 
   /**
@@ -371,7 +365,7 @@ export function usePurchases() {
 
     // Computed values
     activeEntitlements,
-    packagesSortedByPrice,
+    packages,
     errorMessage,
 
     // Utility functions
@@ -411,20 +405,17 @@ export function usePaywall() {
     isLoading,
     error,
     isConfigured,
-    packagesSortedByPrice,
+    packages,
     formatPackagePrice,
     formatPackageTitle,
     getTrialInfo,
     getPurchaseButtonText,
   } = usePurchases();
 
-  const packages = currentOffering?.availablePackages || [];
-
   return {
     // Offerings
     offering: currentOffering,
     packages,
-    sortedPackages: packagesSortedByPrice,
     hasPackages: packages.length > 0,
 
     // Actions
