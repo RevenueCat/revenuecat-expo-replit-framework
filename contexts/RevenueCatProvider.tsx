@@ -109,26 +109,7 @@ export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
       const isConfigComplete = validateRevenueCatConfig();
 
       if (!isConfigComplete) {
-        // Enter demo mode if API keys aren't configured
-        console.log(
-          "🎮 Running in DEMO MODE - Configure API keys in constants/RevenueCat.ts for full functionality",
-        );
-        console.log(
-          "📚 Learn more at: https://docs.revenuecat.com/docs/getting-started",
-        );
-
-        // Initialize with demo data instead of throwing errors
-        setIsInitialized(true);
-        setCustomerInfo(null); // Demo mode - no customer info needed
-
-        // Set demo offerings
-        setOfferings({
-          current: null,
-          all: {},
-        } as PurchasesOfferings);
-
-        setIsLoading(false);
-        return;
+        throw new Error("RevenueCat API keys are not configured. Please update constants/RevenueCat.ts with your API keys.");
       }
 
       const apiKey = getPlatformApiKey();
@@ -154,20 +135,7 @@ export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
       await loadInitialData();
     } catch (err: any) {
       console.error("❌ Failed to initialize RevenueCat:", err);
-
-      // Fall back to demo mode on error
-      console.log("🎮 Falling back to DEMO MODE due to initialization error");
-      setIsInitialized(true);
-      setCustomerInfo(null); // Demo mode - no customer info needed
-
-      setOfferings({
-        current: null,
-        all: {},
-      } as PurchasesOfferings);
-
-      setError(
-        "Running in demo mode - configure RevenueCat for full functionality",
-      );
+      setError(err.message || "Failed to initialize RevenueCat");
     } finally {
       setIsLoading(false);
     }
