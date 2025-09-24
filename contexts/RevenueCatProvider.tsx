@@ -98,6 +98,29 @@ export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
   }, []);
 
   /**
+   * Set up customer info update listener
+   * This runs after RevenueCat is properly initialized
+   */
+  useEffect(() => {
+    if (!isInitialized || error) {
+      return;
+    }
+
+    const customerInfoUpdateListener = (info: CustomerInfo) => {
+      console.log("📱 Customer info updated");
+      setCustomerInfo(info);
+    };
+
+    Purchases.addCustomerInfoUpdateListener(customerInfoUpdateListener);
+
+    // Return cleanup function - this will be called when the component unmounts
+    // or when the dependencies change
+    return () => {
+      Purchases.removeCustomerInfoUpdateListener(customerInfoUpdateListener);
+    };
+  }, [isInitialized, error]);
+
+  /**
    * RevenueCat initialization function
    */
   const initializeRevenueCat = async () => {
@@ -164,19 +187,6 @@ export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
           "Learn more: https://docs.revenuecat.com/docs/entitlements",
         );
       }
-
-      // Set up customer info update listener
-      const customerInfoUpdateListener = (info: CustomerInfo) => {
-        console.log("📱 Customer info updated");
-        setCustomerInfo(info);
-      };
-
-      Purchases.addCustomerInfoUpdateListener(customerInfoUpdateListener);
-
-      // Return cleanup function
-      return () => {
-        Purchases.removeCustomerInfoUpdateListener(customerInfoUpdateListener);
-      };
     } catch (err: any) {
       console.error("❌ Failed to load RevenueCat data:", err);
       setError(err.message || "Failed to load RevenueCat data");
