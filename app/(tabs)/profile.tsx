@@ -19,6 +19,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { usePurchases } from "@/hooks/usePurchases";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ProfileScreen() {
   const {
@@ -35,6 +36,8 @@ export default function ProfileScreen() {
   const errorMessage = getErrorMessage();
   const tintColor = useThemeColor({}, "tint");
 
+  const {top } = useSafeAreaInsets();
+
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "N/A";
     return new Date(dateString).toLocaleDateString();
@@ -43,7 +46,7 @@ export default function ProfileScreen() {
   return (
     <ThemedView style={styles.container}>
       <StatusBar style="auto" />
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={[styles.contentContainer, { paddingTop: top + 16 }]}>
         {/* Profile Header */}
         <ThemedView style={styles.profileHeader}>
           <ThemedText style={styles.profileIcon}>👤</ThemedText>
@@ -59,7 +62,7 @@ export default function ProfileScreen() {
             <ThemedView style={styles.statusCard}>
               <ThemedText>⏳ Loading account info...</ThemedText>
             </ThemedView>
-          ) : !isConfigured ? (
+          ) : !isConfigured() ? (
             <ThemedView style={[styles.statusCard, styles.errorCard]}>
               <ThemedText type="defaultSemiBold">⚠️ Not Configured</ThemedText>
               <ThemedText>RevenueCat needs to be configured</ThemedText>
@@ -168,8 +171,8 @@ export default function ProfileScreen() {
             
             <ThemedView style={styles.infoRow}>
               <ThemedText style={styles.infoLabel}>Configuration:</ThemedText>
-              <ThemedText style={[styles.infoValue, isConfigured ? styles.successText : styles.errorText]}>
-                {isConfigured ? "✅ Configured" : "❌ Not Configured"}
+              <ThemedText style={[styles.infoValue, isConfigured() ? styles.successText : styles.errorText]}>
+                {isConfigured() ? "✅ Configured" : "❌ Not Configured"}
               </ThemedText>
             </ThemedView>
             
@@ -242,6 +245,7 @@ const styles = StyleSheet.create({
   },
   profileIcon: {
     fontSize: 48,
+    lineHeight: 56,
     marginBottom: 8,
   },
   subtitle: {

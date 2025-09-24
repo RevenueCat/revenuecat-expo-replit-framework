@@ -30,6 +30,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { usePaywall } from "@/hooks/usePurchases";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 // Package types for RevenueCat packages
 // These values match what RevenueCat actually returns in packageType
 const PACKAGE_TYPES = {
@@ -68,7 +69,7 @@ export default function PaywallScreen() {
     try {
       await purchasePackage(selectedPackage);
       // Success is handled in the hook with user feedback
-      router.replace("/");
+      router.back();
     } catch (error) {
       // Error is handled in the hook with user feedback
       console.log("Purchase failed in paywall (handled in hook)");
@@ -120,13 +121,20 @@ export default function PaywallScreen() {
   // Get theme colors
   const tintColor = useThemeColor({}, "tint");
   const textColor = useThemeColor({}, "text");
+  const {top, bottom} = useSafeAreaInsets();
 
   return (
     <ThemedView style={styles.container}>
       <StatusBar style="auto" />
       <ScrollView
         style={styles.scrollView}
-        contentContainerStyle={styles.contentContainer}
+        contentContainerStyle={[
+          styles.contentContainer,
+          {
+            paddingTop: top + 16,
+            paddingBottom: bottom + 32
+          }
+        ]}
       >
         <ThemedView style={styles.pageHeader}>
           <ThemedText style={styles.pageTitle}>✨ Premium</ThemedText>
@@ -161,7 +169,7 @@ export default function PaywallScreen() {
             </ThemedText>
             <TouchableOpacity
               style={[styles.retryButton, { backgroundColor: tintColor }]}
-              onPress={() => router.push("/")}
+              onPress={() => router.back()}
             >
               <ThemedText style={[styles.retryButtonText, { color: "white" }]}>
                 Go Back
@@ -182,7 +190,7 @@ export default function PaywallScreen() {
             </ThemedText>
             <TouchableOpacity
               style={[styles.retryButton, { backgroundColor: tintColor }]}
-              onPress={() => router.push("/")}
+              onPress={() => router.back()}
             >
               <ThemedText style={[styles.retryButtonText, { color: "white" }]}>
                 Go Back
@@ -381,7 +389,7 @@ export default function PaywallScreen() {
             {/* Close Button */}
             <TouchableOpacity
               style={styles.laterButton}
-              onPress={() => router.push("/")}
+              onPress={() => router.back()}
             >
               <ThemedText style={styles.laterButtonText}>
                 Back to Home
@@ -403,7 +411,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: 16,
-    paddingBottom: 32,
   },
   pageHeader: {
     alignItems: "center",
@@ -412,6 +419,7 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     fontSize: 42,
+    lineHeight: 48,
     fontWeight: "bold",
     marginBottom: 8,
   },
