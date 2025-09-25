@@ -36,10 +36,10 @@ export default function HomeScreen() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
+      headerBackgroundColor={{ light: "#F2545B", dark: "#F2545B" }}
       headerImage={
         <Image
-          source={require("@/assets/images/partial-react-logo.png")}
+          source={require("@/assets/images/rc-shippy.png")}
           style={styles.reactLogo}
         />
       }
@@ -163,9 +163,7 @@ export default function HomeScreen() {
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="defaultSemiBold">
-          Step 4: Start Testing!
-        </ThemedText>
+        <ThemedText type="defaultSemiBold">Step 4: Start Testing!</ThemedText>
         <ThemedText>
           You're ready to test subscriptions immediately! No need for App Store
           Connect, Google Play, or Stripe setup. Check the{" "}
@@ -220,7 +218,8 @@ export default function HomeScreen() {
         )}
         {REVENUECAT_CONFIG.USE_TEST_STORE && (
           <ThemedText style={styles.webNote}>
-            🧪 Currently using test store - no external payment processing needed.
+            🧪 Currently using test store - no external payment processing
+            needed.
           </ThemedText>
         )}
       </ThemedView>
