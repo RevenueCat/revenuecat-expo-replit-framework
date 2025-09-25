@@ -114,43 +114,89 @@ export default function HomeScreen() {
 
       {/* Getting Started Steps */}
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Quick Start Guide</ThemedText>
+        <ThemedText type="subtitle">🧪 Test Store Setup</ThemedText>
         <ThemedText>
-          This RevenueCat framework is ready to use! Follow these steps to get
-          started:
+          The easiest way to get started! Works on iOS, Android, and Web without
+          connecting external stores.
         </ThemedText>
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="defaultSemiBold">
-          Step 1: Configure API Keys
+          Step 1: Create RevenueCat Project
+        </ThemedText>
+        <ThemedText>
+          Go to{" "}
+          <ThemedText type="defaultSemiBold">app.revenuecat.com</ThemedText> and
+          create a new project. Configure entitlements (e.g., "premium") and
+          create offerings with test products and pricing.
+        </ThemedText>
+      </ThemedView>
+
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="defaultSemiBold">
+          Step 2: Get Your Test API Key
+        </ThemedText>
+        <ThemedText>
+          In your RevenueCat project, go to{" "}
+          <ThemedText type="defaultSemiBold">
+            Project Settings → API Keys
+          </ThemedText>{" "}
+          and copy your test API key (starts with "test_").
+        </ThemedText>
+      </ThemedView>
+
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="defaultSemiBold">
+          Step 3: Configure Your App
         </ThemedText>
         <ThemedText>
           Update{" "}
           <ThemedText type="defaultSemiBold">
             constants/RevenueCat.ts
           </ThemedText>{" "}
-          with your RevenueCat API keys for iOS, Android, and Web platforms.
-        </ThemedText>
-      </ThemedView>
-
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="defaultSemiBold">Step 2: Set Up Products</ThemedText>
-        <ThemedText>
-          Create products and entitlements in the RevenueCat dashboard. Check
-          the <ThemedText type="defaultSemiBold">RevenueCat Guide</ThemedText>{" "}
-          tab for detailed instructions.
+          with your test API key and entitlement ID. Keep{" "}
+          <ThemedText type="defaultSemiBold">USE_TEST_STORE: true</ThemedText>{" "}
+          for development.
         </ThemedText>
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="defaultSemiBold">
-          Step 3: Test Your Integration
+          Step 4: Start Testing!
         </ThemedText>
         <ThemedText>
-          Use sandbox accounts for testing. The{" "}
-          <ThemedText type="defaultSemiBold">Profile</ThemedText> tab shows
-          detailed customer info for debugging.
+          You're ready to test subscriptions immediately! No need for App Store
+          Connect, Google Play, or Stripe setup. Check the{" "}
+          <ThemedText type="defaultSemiBold">Profile</ThemedText> tab for
+          debugging info.
+        </ThemedText>
+      </ThemedView>
+
+      {/* Real Stores */}
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">🏪 Ready for Real Stores?</ThemedText>
+        <ThemedText>
+          Once you're comfortable with the test store, you can integrate with
+          real stores (Apple App Store, Google Play Store, RevenueCat Web
+          Billing) which all have sandbox modes for testing before publishing.
+        </ThemedText>
+        <ThemedText style={styles.helpText}>
+          Set{" "}
+          <ThemedText type="defaultSemiBold">USE_TEST_STORE: false</ThemedText>{" "}
+          in constants/RevenueCat.ts and configure your production API keys.
+        </ThemedText>
+      </ThemedView>
+
+      {/* Documentation Link */}
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">📚 Documentation</ThemedText>
+        <ThemedText>
+          For detailed guides and advanced setup, visit the{" "}
+          <ThemedText type="defaultSemiBold">
+            RevenueCat Documentation
+          </ThemedText>{" "}
+          at docs.revenuecat.com/docs/welcome/overview
         </ThemedText>
       </ThemedView>
 
