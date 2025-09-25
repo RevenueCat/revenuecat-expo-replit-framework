@@ -43,7 +43,6 @@ const PACKAGE_TYPES = {
 export default function PaywallScreen() {
   const {
     packages,
-    sortedPackages,
     hasPackages,
     purchasePackage,
     isPurchasing,
@@ -63,7 +62,7 @@ export default function PaywallScreen() {
   const handlePurchase = async () => {
     if (!hasPackages || isPurchasing) return;
 
-    const selectedPackage = sortedPackages[selectedPackageIndex];
+    const selectedPackage = packages[selectedPackageIndex];
     if (!selectedPackage) return;
 
     try {
@@ -232,7 +231,7 @@ export default function PaywallScreen() {
             <ThemedView style={styles.stepContainer}>
               <ThemedText type="subtitle">Choose Your Plan</ThemedText>
 
-              {sortedPackages.map((packageItem, index) => {
+              {packages.map((packageItem, index) => {
                 const isSelected = index === selectedPackageIndex;
                 const badge = getPackageTypeBadge(
                   packageItem.packageType || ""
@@ -367,7 +366,7 @@ export default function PaywallScreen() {
                 <ThemedText
                   style={[styles.purchaseButtonText, { color: "white" }]}
                 >
-                  {getPurchaseButtonText(sortedPackages[selectedPackageIndex])}
+                  {getPurchaseButtonText(packages[selectedPackageIndex])}
                 </ThemedText>
               )}
             </TouchableOpacity>
