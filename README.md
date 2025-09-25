@@ -31,7 +31,7 @@ Start coding in minutes — this flow takes you from **first run to first subscr
 - Development server auto-starts when you press Run
 - All dependencies installed and ready
 - Web development environment optimized for Replit
-- RevenueCat integration with demo mode for testing
+- RevenueCat integration with test store support
 - Cross-platform navigation and UI components
 
 ## 🧪 Testing Your Subscriptions
@@ -43,11 +43,7 @@ Start coding in minutes — this flow takes you from **first run to first subscr
 - **Perfect for development** and prototyping
 - Add your `test_` API key in `constants/RevenueCat.ts`
 
-**Demo Mode**: The app also includes a demo mode that works without any configuration:
-
-- All screens and navigation work immediately
-- Mock subscription status for UI development
-- No payment processing, just interface testing
+**Without Configuration**: If you haven't set up RevenueCat yet, the app will show an error but the navigation and basic UI will still work for development.
 
 **Ready for production stores?** See the "Production Deployment" section below to connect real app stores.
 
@@ -540,7 +536,7 @@ This moves the example code to `app-example/` and creates a clean `app/` directo
 **Need to configure API keys?**
 - Use Replit Secrets for production keys
 - Or edit `constants/RevenueCat.ts` directly for development
-- Demo mode works without any configuration
+- App requires RevenueCat configuration to work properly
 
 ### General Issues
 

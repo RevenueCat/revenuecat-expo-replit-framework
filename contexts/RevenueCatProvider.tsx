@@ -98,6 +98,29 @@ export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
   }, []);
 
   /**
+   * Set up customer info update listener
+   * This runs after RevenueCat is properly initialized
+   */
+  useEffect(() => {
+    if (!isInitialized || error) {
+      return;
+    }
+
+    const customerInfoUpdateListener = (info: CustomerInfo) => {
+      console.log("📱 Customer info updated");
+      setCustomerInfo(info);
+    };
+
+    Purchases.addCustomerInfoUpdateListener(customerInfoUpdateListener);
+
+    // Return cleanup function - this will be called when the component unmounts
+    // or when the dependencies change
+    return () => {
+      Purchases.removeCustomerInfoUpdateListener(customerInfoUpdateListener);
+    };
+  }, [isInitialized, error]);
+
+  /**
    * RevenueCat initialization function
    */
   const initializeRevenueCat = async () => {
@@ -109,26 +132,7 @@ export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
       const isConfigComplete = validateRevenueCatConfig();
 
       if (!isConfigComplete) {
-        // Enter demo mode if API keys aren't configured
-        console.log(
-          "🎮 Running in DEMO MODE - Configure API keys in constants/RevenueCat.ts for full functionality",
-        );
-        console.log(
-          "📚 Learn more at: https://docs.revenuecat.com/docs/getting-started",
-        );
-
-        // Initialize with demo data instead of throwing errors
-        setIsInitialized(true);
-        setCustomerInfo(null); // Demo mode - no customer info needed
-
-        // Set demo offerings
-        setOfferings({
-          current: null,
-          all: {},
-        } as PurchasesOfferings);
-
-        setIsLoading(false);
-        return;
+        throw new Error("RevenueCat API keys are not configured. Please update constants/RevenueCat.ts with your API keys.");
       }
 
       const apiKey = getPlatformApiKey();
@@ -154,20 +158,7 @@ export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
       await loadInitialData();
     } catch (err: any) {
       console.error("❌ Failed to initialize RevenueCat:", err);
-
-      // Fall back to demo mode on error
-      console.log("🎮 Falling back to DEMO MODE due to initialization error");
-      setIsInitialized(true);
-      setCustomerInfo(null); // Demo mode - no customer info needed
-
-      setOfferings({
-        current: null,
-        all: {},
-      } as PurchasesOfferings);
-
-      setError(
-        "Running in demo mode - configure RevenueCat for full functionality",
-      );
+      setError(err.message || "Failed to initialize RevenueCat");
     } finally {
       setIsLoading(false);
     }
@@ -196,19 +187,6 @@ export function RevenueCatProvider({ children }: RevenueCatProviderProps) {
           "Learn more: https://docs.revenuecat.com/docs/entitlements",
         );
       }
-
-      // Set up customer info update listener
-      const customerInfoUpdateListener = (info: CustomerInfo) => {
-        console.log("📱 Customer info updated");
-        setCustomerInfo(info);
-      };
-
-      Purchases.addCustomerInfoUpdateListener(customerInfoUpdateListener);
-
-      // Return cleanup function
-      return () => {
-        Purchases.removeCustomerInfoUpdateListener(customerInfoUpdateListener);
-      };
     } catch (err: any) {
       console.error("❌ Failed to load RevenueCat data:", err);
       setError(err.message || "Failed to load RevenueCat data");

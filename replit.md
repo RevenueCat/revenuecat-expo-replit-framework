@@ -14,10 +14,10 @@ Preferred communication style: Simple, everyday language.
 - Press Run. The dev server starts automatically on port `8081` and opens a web preview URL.
 - Hot reload is enabled. Edit files and the browser refreshes.
 
-### Demo Mode (No Setup Needed)
-- Works out of the box without RevenueCat keys.
-- Shows UI, navigation, paywall, and basic state; no real purchases occur.
-- Add your test API key to switch to real subscription testing.
+### Without RevenueCat Setup
+- The app requires RevenueCat API keys to function properly.
+- Without keys, you'll see an error but the basic navigation will still work.
+- Add your test API key to enable subscription testing.
 
 ## RevenueCat Configuration
 
