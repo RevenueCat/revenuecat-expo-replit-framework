@@ -25,6 +25,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { usePurchases } from "@/hooks/usePurchases";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { REVENUECAT_CONFIG } from "@/constants/RevenueCat";
 
 export default function ProfileScreen() {
   const {
@@ -182,6 +183,21 @@ export default function ProfileScreen() {
             <ThemedView style={styles.infoRow}>
               <ThemedText style={styles.infoLabel}>Platform:</ThemedText>
               <ThemedText style={styles.infoValue}>{Platform.OS}</ThemedText>
+            </ThemedView>
+
+            <ThemedView style={styles.infoRow}>
+              <ThemedText style={styles.infoLabel}>Store:</ThemedText>
+              <ThemedText style={styles.infoValue}>
+                {REVENUECAT_CONFIG.USE_TEST_STORE
+                  ? "🧪 Test Store"
+                  : Platform.OS === "ios"
+                  ? "🍎 Apple App Store"
+                  : Platform.OS === "android"
+                  ? "🤖 Google Play Store"
+                  : Platform.OS === "web"
+                  ? "😸 RevenueCat Web Billing"
+                  : "🏪 Production Store"}
+              </ThemedText>
             </ThemedView>
 
             <ThemedView style={styles.infoRow}>
