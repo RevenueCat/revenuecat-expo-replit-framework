@@ -20,9 +20,9 @@
  * - Cross-platform compatibility
  */
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Platform, Alert } from "react-native";
-import { PurchasesPackage } from "react-native-purchases";
+import { PRODUCT_CATEGORY, PurchasesPackage } from "react-native-purchases";
 import { useRevenueCat } from "@/contexts/RevenueCatProvider";
 
 /**
@@ -123,24 +123,18 @@ export function usePurchases() {
   /**
    * Get all active entitlements
    */
-  const getActiveEntitlements = (): string[] => {
-    const activeEntitlements =
+  const activeEntitlements = useMemo((): string[] => {
+    const activeEntitlementsObj =
       revenueCatContext.customerInfo?.entitlements?.active;
-    return activeEntitlements ? Object.keys(activeEntitlements) : [];
-  };
+    return activeEntitlementsObj ? Object.keys(activeEntitlementsObj) : [];
+  }, [revenueCatContext.customerInfo?.entitlements?.active]);
 
   /**
-   * Get packages sorted by price (lowest to highest)
+   * Get packages in their configured order from RevenueCat
    */
-  const getPackagesSortedByPrice = () => {
-    const packages = revenueCatContext.currentOffering?.availablePackages || [];
-
-    return [...packages].sort((a, b) => {
-      const priceA = a.product?.price || 0;
-      const priceB = b.product?.price || 0;
-      return priceA - priceB;
-    });
-  };
+  const packages = useMemo(() => {
+    return revenueCatContext.currentOffering?.availablePackages || [];
+  }, [revenueCatContext.currentOffering?.availablePackages]);
 
   /**
    * Get a specific package by type
@@ -170,7 +164,7 @@ export function usePurchases() {
     if (introPrice) {
       const introPriceString =
         introPrice.priceString || introPrice.price?.toString();
-      const introPeriod = introPrice.subscriptionPeriod;
+      const introPeriod = introPrice.period;
       const introCycles = introPrice.cycles;
 
       // If intro price is 0, it's a free trial
@@ -264,7 +258,7 @@ export function usePurchases() {
 
       // Fallback to parsing subscription period if periodNumberOfUnits/periodUnit not available
       const cycles = introPrice.cycles || 1;
-      const period = introPrice.subscriptionPeriod;
+      const period = introPrice.period;
 
       if (period) {
         const parsedPeriod = parseSubscriptionPeriod(period);
@@ -304,7 +298,8 @@ export function usePurchases() {
     }
 
     // Check if it's a subscription (has subscription period)
-    const isSubscription = storeProduct?.subscriptionPeriod != null;
+    const isSubscription =
+      storeProduct?.productCategory === PRODUCT_CATEGORY.SUBSCRIPTION;
 
     if (isSubscription) {
       return "Subscribe now";
@@ -319,8 +314,7 @@ export function usePurchases() {
    */
   const formatPackageTitle = (packageItem: PurchasesPackage): string => {
     // Try different title sources
-    const title =
-      packageItem.product?.title || packageItem.product?.localizedTitle;
+    const title = packageItem.product?.title;
 
     if (title) return title;
 
@@ -334,14 +328,14 @@ export function usePurchases() {
   /**
    * Check if RevenueCat is properly configured
    */
-  const isConfigured = (): boolean => {
+  const isConfigured = useMemo((): boolean => {
     return revenueCatContext.isInitialized && !revenueCatContext.error;
-  };
+  }, [revenueCatContext.isInitialized, revenueCatContext.error]);
 
   /**
    * Get user-friendly error message
    */
-  const getErrorMessage = (): string | null => {
+  const errorMessage = useMemo((): string | null => {
     if (!revenueCatContext.error) return null;
 
     // Provide more helpful error messages
@@ -354,7 +348,7 @@ export function usePurchases() {
     }
 
     return revenueCatContext.error;
-  };
+  }, [revenueCatContext.error]);
 
   // Return all the functionality
   return {
@@ -369,17 +363,19 @@ export function usePurchases() {
     purchasePackage,
     restorePurchases,
 
+    // Computed values
+    activeEntitlements,
+    packages,
+    errorMessage,
+    isConfigured,
+
     // Utility functions
     hasEntitlement,
-    getActiveEntitlements,
-    getPackagesSortedByPrice,
     getPackageByType,
     formatPackagePrice,
     formatPackageTitle,
     getTrialInfo,
     getPurchaseButtonText,
-    isConfigured,
-    getErrorMessage,
   };
 }
 
@@ -409,21 +405,17 @@ export function usePaywall() {
     isLoading,
     error,
     isConfigured,
-    getPackagesSortedByPrice,
+    packages,
     formatPackagePrice,
     formatPackageTitle,
     getTrialInfo,
     getPurchaseButtonText,
   } = usePurchases();
 
-  const packages = currentOffering?.availablePackages || [];
-  const sortedPackages = getPackagesSortedByPrice();
-
   return {
     // Offerings
     offering: currentOffering,
     packages,
-    sortedPackages,
     hasPackages: packages.length > 0,
 
     // Actions

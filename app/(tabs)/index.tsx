@@ -29,13 +29,9 @@ export default function HomeScreen() {
     isConfigured,
     customerInfo,
     currentOffering,
-    getActiveEntitlements,
-    getErrorMessage,
+    activeEntitlements,
+    errorMessage,
   } = usePurchases();
-
-  // Get active entitlements for display
-  const activeEntitlements = getActiveEntitlements();
-  const errorMessage = getErrorMessage();
 
   return (
     <ParallaxScrollView

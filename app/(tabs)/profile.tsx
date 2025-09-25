@@ -33,12 +33,9 @@ export default function ProfileScreen() {
     isConfigured,
     customerInfo,
     currentOffering,
-    getActiveEntitlements,
-    getErrorMessage,
+    activeEntitlements,
+    errorMessage,
   } = usePurchases();
-
-  const activeEntitlements = getActiveEntitlements();
-  const errorMessage = getErrorMessage();
   const tintColor = useThemeColor({}, "tint");
 
   const { top } = useSafeAreaInsets();
@@ -75,7 +72,7 @@ export default function ProfileScreen() {
             <ThemedView style={styles.statusCard}>
               <ThemedText>⏳ Loading account info...</ThemedText>
             </ThemedView>
-          ) : !isConfigured() ? (
+          ) : !isConfigured ? (
             <ThemedView style={[styles.statusCard, styles.errorCard]}>
               <ThemedText type="defaultSemiBold">⚠️ Not Configured</ThemedText>
               <ThemedText>RevenueCat needs to be configured</ThemedText>
@@ -192,10 +189,10 @@ export default function ProfileScreen() {
               <ThemedText
                 style={[
                   styles.infoValue,
-                  isConfigured() ? styles.successText : styles.errorText,
+                  isConfigured ? styles.successText : styles.errorText,
                 ]}
               >
-                {isConfigured() ? "✅ Configured" : "❌ Not Configured"}
+                {isConfigured ? "✅ Configured" : "❌ Not Configured"}
               </ThemedText>
             </ThemedView>
 
