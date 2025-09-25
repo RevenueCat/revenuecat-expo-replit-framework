@@ -21,6 +21,7 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { usePurchases } from "@/hooks/usePurchases";
+import { REVENUECAT_CONFIG } from "@/constants/RevenueCat";
 
 export default function HomeScreen() {
   const {
@@ -208,12 +209,18 @@ export default function HomeScreen() {
           {Platform.OS}
         </ThemedText>
         <ThemedText>
-          This framework supports iOS, Android, and Web with RevenueCat's web
-          billing.
+          {REVENUECAT_CONFIG.USE_TEST_STORE
+            ? "This framework supports iOS, Android, and Web with RevenueCat's test store for easy development and testing."
+            : "This framework supports iOS, Android, and Web with their respective production stores (Apple App Store, Google Play Store, and RevenueCat Web Billing)."}
         </ThemedText>
-        {Platform.OS === "web" && (
+        {Platform.OS === "web" && !REVENUECAT_CONFIG.USE_TEST_STORE && (
           <ThemedText style={styles.webNote}>
             💡 Web billing uses Stripe to process payments.
+          </ThemedText>
+        )}
+        {REVENUECAT_CONFIG.USE_TEST_STORE && (
+          <ThemedText style={styles.webNote}>
+            🧪 Currently using test store - no external payment processing needed.
           </ThemedText>
         )}
       </ThemedView>
