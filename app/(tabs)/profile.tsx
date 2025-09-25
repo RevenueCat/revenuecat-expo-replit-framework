@@ -331,6 +331,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: "rgba(128, 128, 128, 0.1)",
+    backgroundColor: "transparent",
   },
   infoLabel: {
     fontWeight: "600",
@@ -354,6 +355,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: "rgba(128, 128, 128, 0.1)",
+    backgroundColor: "transparent",
   },
   entitlementName: {
     fontWeight: "600",
