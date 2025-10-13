@@ -24,6 +24,7 @@ Start coding in minutes — this flow takes you from **first run to first subscr
    - Edit `constants/RevenueCat.ts`
    - Add your TEST API key from [app.revenuecat.com](https://app.revenuecat.com) (starts with `test_`)
    - Works on **all platforms** (iOS, Android, Web) without store setup!
+   - Learn more on on [revenuecat.com](https://rev.cat/sdk-test-store)
 3. **Start building** - Modify the existing screens or add new ones
 
 ## ⚡ What's Pre-Configured
