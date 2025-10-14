@@ -23,9 +23,10 @@ Start coding in minutes — this flow takes you from **first run to first subscr
 2. **Configure RevenueCat Test Store** (recommended):
    - Open **Replit Secrets** (Tools > Secrets in the left sidebar)
    - Add a new secret:
-     - Key: `REVENUECAT_TEST_API_KEY`
+     - Key: `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY`
      - Value: Your TEST API key from [app.revenuecat.com](https://app.revenuecat.com) (starts with `test_`)
    - Restart the app to load the secret
+   - Note: Must be prefixed with `EXPO_PUBLIC_` for Expo compatibility
    - Works on **all platforms** (iOS, Android, Web) without store setup!
    - Learn more on [revenuecat.com](https://rev.cat/sdk-test-store)
 3. **Start building** - Modify the existing screens or add new ones
@@ -200,11 +201,12 @@ This is where your app becomes **monetizable**.
 
 2. **Add your test API key:**
    - Click "Add new secret"
-   - Key: `REVENUECAT_TEST_API_KEY`
+   - Key: `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY`
    - Value: `test_xxxxxxxxxx` (your actual test key)
+   - Note: Must be prefixed with `EXPO_PUBLIC_` for Expo
 
 3. **Optional: Customize entitlement ID:**
-   - Key: `REVENUECAT_ENTITLEMENT_ID`
+   - Key: `EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID`
    - Value: `premium` (or your custom entitlement ID)
 
 4. **Restart the app** to load the secrets

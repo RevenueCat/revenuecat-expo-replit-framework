@@ -26,41 +26,42 @@ export const REVENUECAT_CONFIG = {
    * Get your test API key from: https://app.revenuecat.com/projects/[your-project]/api-keys
    * Look for the key that starts with "test_"
    *
-   * Set this using Replit Secrets: REVENUECAT_TEST_API_KEY
+   * Set this using Replit Secrets: EXPO_PUBLIC_REVENUECAT_TEST_API_KEY
    * Access Secrets in the left sidebar under "Tools" > "Secrets"
+   * Note: Must be prefixed with EXPO_PUBLIC_ for Expo web compatibility
    */
-  TEST_API_KEY: process.env.REVENUECAT_TEST_API_KEY || "",
+  TEST_API_KEY: process.env.EXPO_PUBLIC_REVENUECAT_TEST_API_KEY || "",
 
   /**
    * 🏪 REAL STORE API KEYS (FOR REAL APP STORES: App Store, Play Store, Web Billing)
    * Only needed when you're ready to publish to actual app stores
    * Get these from: https://app.revenuecat.com/projects/[your-project]/api-keys
    *
-   * Set these using Replit Secrets:
-   * - REVENUECAT_IOS_API_KEY
-   * - REVENUECAT_ANDROID_API_KEY
-   * - REVENUECAT_WEB_API_KEY
+   * Set these using Replit Secrets (must be prefixed with EXPO_PUBLIC_):
+   * - EXPO_PUBLIC_REVENUECAT_IOS_API_KEY
+   * - EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY
+   * - EXPO_PUBLIC_REVENUECAT_WEB_API_KEY
    */
-  IOS_API_KEY: process.env.REVENUECAT_IOS_API_KEY || "",
-  ANDROID_API_KEY: process.env.REVENUECAT_ANDROID_API_KEY || "",
-  WEB_API_KEY: process.env.REVENUECAT_WEB_API_KEY || "",
+  IOS_API_KEY: process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY || "",
+  ANDROID_API_KEY: process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY || "",
+  WEB_API_KEY: process.env.EXPO_PUBLIC_REVENUECAT_WEB_API_KEY || "",
 
   /**
    * Configure your entitlement identifier
    * This should match the entitlement identifier you create in the RevenueCat dashboard
    * Configure entitlements in RevenueCat Dashboard > Entitlements
    *
-   * Can also be set via environment variable: REVENUECAT_ENTITLEMENT_ID
+   * Can also be set via environment variable: EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID
    */
-  ENTITLEMENT_ID: process.env.REVENUECAT_ENTITLEMENT_ID || "premium",
+  ENTITLEMENT_ID: process.env.EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID || "premium",
 
   /**
    * Enable test store mode (recommended for development)
    * Set to true to use the test store, false to use production stores
    *
-   * Can also be set via environment variable: REVENUECAT_USE_TEST_STORE
+   * Can also be set via environment variable: EXPO_PUBLIC_REVENUECAT_USE_TEST_STORE
    */
-  USE_TEST_STORE: process.env.REVENUECAT_USE_TEST_STORE === "false" ? false : true,
+  USE_TEST_STORE: process.env.EXPO_PUBLIC_REVENUECAT_USE_TEST_STORE === "false" ? false : true,
 
   /**
    * Optional: Enable debug mode for development
@@ -117,7 +118,7 @@ export const validateRevenueCatConfig = (): boolean => {
       console.error("\n📝 To add your API key:");
       console.error("1. Open 'Secrets' in the left sidebar (Tools > Secrets)");
       console.error("2. Add a new secret:");
-      console.error("   - Key: REVENUECAT_TEST_API_KEY");
+      console.error("   - Key: EXPO_PUBLIC_REVENUECAT_TEST_API_KEY");
       console.error("   - Value: Your test API key (starts with 'test_')");
       console.error("3. Restart the app to load the secret");
       console.error("\n🔑 Get your test API key from:");
@@ -130,9 +131,9 @@ export const validateRevenueCatConfig = (): boolean => {
       console.error("\n📝 To add your production API keys:");
       console.error("1. Open 'Secrets' in the left sidebar (Tools > Secrets)");
       console.error("2. Add the appropriate secret for your platform:");
-      console.error("   iOS: REVENUECAT_IOS_API_KEY");
-      console.error("   Android: REVENUECAT_ANDROID_API_KEY");
-      console.error("   Web: REVENUECAT_WEB_API_KEY");
+      console.error("   iOS: EXPO_PUBLIC_REVENUECAT_IOS_API_KEY");
+      console.error("   Android: EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY");
+      console.error("   Web: EXPO_PUBLIC_REVENUECAT_WEB_API_KEY");
       console.error("3. Restart the app to load the secrets");
       console.error("\n🔑 Get your API keys from:");
       console.error("   https://app.revenuecat.com/projects/[your-project]/api-keys");

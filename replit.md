@@ -34,9 +34,10 @@ Preferred communication style: Simple, everyday language.
 
 2. **Add your test API key**
    - Click "Add new secret"
-   - Key: `REVENUECAT_TEST_API_KEY`
+   - Key: `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY`
    - Value: Your test API key (starts with `test_`)
    - Get it from: https://app.revenuecat.com/projects/[your-project]/api-keys
+   - Note: Must be prefixed with `EXPO_PUBLIC_` for Expo web compatibility
 
 3. **Restart the dev server**
    - The app will automatically pick up the new secret
@@ -46,25 +47,25 @@ Preferred communication style: Simple, everyday language.
 When ready for real app stores, add these secrets using the same process:
 
 **iOS (App Store):**
-- Key: `REVENUECAT_IOS_API_KEY`
+- Key: `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY`
 - Value: Your iOS API key (starts with `appl_`)
 
 **Android (Google Play):**
-- Key: `REVENUECAT_ANDROID_API_KEY`
+- Key: `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY`
 - Value: Your Android API key (starts with `goog_`)
 
 **Web (RevenueCat Web Billing):**
-- Key: `REVENUECAT_WEB_API_KEY`
+- Key: `EXPO_PUBLIC_REVENUECAT_WEB_API_KEY`
 - Value: Your web API key (starts with `rcb_`)
 
 **Switch to production mode:**
-- Key: `REVENUECAT_USE_TEST_STORE`
+- Key: `EXPO_PUBLIC_REVENUECAT_USE_TEST_STORE`
 - Value: `false`
 
 ### 📌 Optional Configuration Secrets
 
 **Custom Entitlement ID:**
-- Key: `REVENUECAT_ENTITLEMENT_ID`
+- Key: `EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID`
 - Value: Your entitlement ID (default: `premium`)
 
 **Why Use Secrets?**
