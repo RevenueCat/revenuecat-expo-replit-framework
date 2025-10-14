@@ -21,11 +21,17 @@ Start coding in minutes — this flow takes you from **first run to first subscr
 
 1. **Click the "Run" button** — everything is pre-configured!
 2. **Configure RevenueCat Test Store** (recommended):
-   - Edit `constants/RevenueCat.ts`
-   - Add your TEST API key from [app.revenuecat.com](https://app.revenuecat.com) (starts with `test_`)
+   - Open **Replit Secrets** (Tools > Secrets in the left sidebar)
+   - Add a new secret:
+     - Key: `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY`
+     - Value: Your TEST API key from [app.revenuecat.com](https://app.revenuecat.com) (starts with `test_`)
+   - Restart the app to load the secret
+   - Note: Must be prefixed with `EXPO_PUBLIC_` for Expo compatibility
    - Works on **all platforms** (iOS, Android, Web) without store setup!
-   - Learn more on on [revenuecat.com](https://rev.cat/sdk-test-store)
+   - Learn more on [revenuecat.com](https://rev.cat/sdk-test-store)
 3. **Start building** - Modify the existing screens or add new ones
+
+**🔐 Security Note:** API keys are now stored as environment variables using Replit Secrets. Never commit API keys directly to your code!
 
 ## ⚡ What's Pre-Configured
 
@@ -42,9 +48,9 @@ Start coding in minutes — this flow takes you from **first run to first subscr
 - **One API key** works on iOS, Android, and Web
 - **Real subscription testing** without Apple, Google, or Stripe setup
 - **Perfect for development** and prototyping
-- Add your `test_` API key in `constants/RevenueCat.ts`
+- Add your `test_` API key using Replit Secrets (see setup instructions above)
 
-**Without Configuration**: If you haven't set up RevenueCat yet, the app will show an error but the navigation and basic UI will still work for development.
+**Without Configuration**: If you haven't set up RevenueCat yet, the app will show an error with instructions on how to add your API key via Replit Secrets. The navigation and basic UI will still work for development.
 
 **Ready for production stores?** See the "Production Deployment" section below to connect real app stores.
 
@@ -188,21 +194,22 @@ This is where your app becomes **monetizable**.
 3. Create **Offerings** and **Products** with test pricing
 4. Get your **Test API Key** from Project Settings → API Keys (starts with `test_`)
 
-**Configure Test Store:**
-Edit `constants/RevenueCat.ts` with your test API key:
+**Configure Test Store Using Replit Secrets:**
 
-```typescript
-export const REVENUECAT_CONFIG = {
-  TEST_API_KEY: 'test_xxxxxxxxxx',       // ← Add your test key here!
-  ENTITLEMENT_ID: 'premium',             // Match your entitlement
-  USE_TEST_STORE: true,                  // Keep true for development
+1. **Open Replit Secrets:**
+   - Click "Tools" > "Secrets" in the left sidebar
 
-  // Production keys (add later)
-  IOS_API_KEY: 'appl_xxxxxxxxxx',
-  ANDROID_API_KEY: 'goog_xxxxxxxxxx',
-  WEB_API_KEY: 'rcb_xxxxxxxxxx',
-};
-```
+2. **Add your test API key:**
+   - Click "Add new secret"
+   - Key: `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY`
+   - Value: `test_xxxxxxxxxx` (your actual test key)
+   - Note: Must be prefixed with `EXPO_PUBLIC_` for Expo
+
+3. **Optional: Customize entitlement ID:**
+   - Key: `EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID`
+   - Value: `premium` (or your custom entitlement ID)
+
+4. **Restart the app** to load the secrets
 
 **✅ You're ready to test!** The test store works immediately on iOS, Android, and Web without connecting any external payment systems.
 
@@ -216,7 +223,7 @@ export const REVENUECAT_CONFIG = {
 - Set up introductory offers/free trials
 - Upload App Store Connect API key to RevenueCat
 - Add iOS app to your RevenueCat project
-- Update `IOS_API_KEY` in your config
+- Add secret: `REVENUECAT_IOS_API_KEY` with your iOS API key
 
 **Android (Google Play Console):**
 - Create subscription products in Google Play Console
@@ -224,33 +231,30 @@ export const REVENUECAT_CONFIG = {
 - Set up promotional offers
 - Upload Google Play service account to RevenueCat
 - Add Android app to your RevenueCat project
-- Update `ANDROID_API_KEY` in your config
+- Add secret: `REVENUECAT_ANDROID_API_KEY` with your Android API key
 
 **Web (via RevenueCat Web Billing):**
 - Connect your Stripe account to RevenueCat
 - Add a Web Billing app in your RevenueCat project
-- Update `WEB_API_KEY` in your config
+- Add secret: `REVENUECAT_WEB_API_KEY` with your Web API key
 
 **Switch to Production:**
-Set `USE_TEST_STORE: false` in your config or use environment variable `REVENUECAT_USE_TEST_STORE=false`.
+- Add secret: `REVENUECAT_USE_TEST_STORE` with value `false`
+- Or simply remove the `REVENUECAT_TEST_API_KEY` secret and the app will use production keys
 
 ### 🔄 Transitioning from Test Store to Production
 
 When you're ready to move from testing to real app store distribution:
 
 1. **Keep your test setup intact** - you can switch back anytime
-2. **Add production API keys** to your `constants/RevenueCat.ts`
-3. **Test the transition**:
-   ```bash
-   # Test with production stores
-   REVENUECAT_USE_TEST_STORE=false npx expo start
-
-   # Back to test store
-   REVENUECAT_USE_TEST_STORE=true npx expo start
-   ```
-4. **Deploy with production settings**:
-   - Set `REVENUECAT_USE_TEST_STORE=false` in your production environment
-   - Or update `USE_TEST_STORE: false` directly in the config
+2. **Add production API keys** using Replit Secrets (see section 2 above)
+3. **Test the transition** by adding the secret:
+   - Key: `REVENUECAT_USE_TEST_STORE`
+   - Value: `false`
+   - Restart the app
+4. **Switch back to test mode** anytime:
+   - Change the secret value to `true`
+   - Or remove the secret entirely (defaults to test mode)
 
 **💡 Pro Tip**: The test store and production stores all use the same RevenueCat project - just different API key types. Your products, entitlements, and settings remain consistent across both.
 
@@ -279,7 +283,7 @@ When you're ready to move from testing to real app store distribution:
 
 ### Essential Files to Edit
 
-1. **`constants/RevenueCat.ts`** - Add your Test API key (start here!)
+1. **Replit Secrets** - Add your Test API key via Secrets (start here!)
 2. **`app.json`** - Update app name, bundle ID, and metadata
 3. **`app/(tabs)/index.tsx`** - Customize your home screen
 4. **`app/paywall.tsx`** - Design your subscription paywall
@@ -396,36 +400,30 @@ npx eas submit --platform android --latest
 
 ### Environment Management
 
-**Multiple Environment Setup:**
+**All API keys are automatically managed via environment variables and Replit Secrets.**
 
-**Development Environment:**
-```typescript
-// constants/RevenueCat.ts - Development
-export const REVENUECAT_CONFIG = {
-  IOS_API_KEY: process.env.REVENUECAT_DEV_IOS_API_KEY || "<dev-ios-key>",
-  ANDROID_API_KEY: process.env.REVENUECAT_DEV_ANDROID_API_KEY || "<dev-android-key>",
-  WEB_API_KEY: process.env.REVENUECAT_DEV_WEB_API_KEY || "<dev-web-key>",
-  ENTITLEMENT_ID: "pro_dev",
-  DEBUG_MODE: true,
-};
-```
+The app reads from these environment variables:
 
-**Production Environment:**
-```typescript
-// Use Replit Secrets for production keys
-export const REVENUECAT_CONFIG = {
-  IOS_API_KEY: process.env.REVENUECAT_PROD_IOS_API_KEY,
-  ANDROID_API_KEY: process.env.REVENUECAT_PROD_ANDROID_API_KEY,
-  WEB_API_KEY: process.env.REVENUECAT_PROD_WEB_API_KEY,
-  ENTITLEMENT_ID: "pro",
-  DEBUG_MODE: false,
-};
-```
+**Development (Test Store):**
+- `REVENUECAT_TEST_API_KEY` - Your test API key
+- `REVENUECAT_USE_TEST_STORE=true` - Enable test mode (default)
+- `REVENUECAT_ENTITLEMENT_ID` - Your entitlement ID (optional, defaults to "premium")
 
-**Credentials Management:**
+**Production (Real App Stores):**
+- `REVENUECAT_IOS_API_KEY` - iOS App Store API key
+- `REVENUECAT_ANDROID_API_KEY` - Google Play API key  
+- `REVENUECAT_WEB_API_KEY` - Web Billing API key
+- `REVENUECAT_USE_TEST_STORE=false` - Disable test mode
+
+**Security Best Practices:**
+- ✅ All keys are stored in Replit Secrets (encrypted)
+- ✅ Never commit API keys to git
+- ✅ Easy to rotate keys if compromised
+- ✅ Same approach works in development and deployment
+
+**Build Credentials Management:**
 - **EAS automatically handles**: iOS certificates, Android keystores
 - **Manual override available**: For custom signing requirements
-- **Environment variables**: Use Replit Secrets for sensitive data
 
 ## 🧪 Testing
 
@@ -535,8 +533,8 @@ This moves the example code to `app-example/` and creates a clean `app/` directo
 - Clear browser cache if styles aren't updating
 
 **Need to configure API keys?**
-- Use Replit Secrets for production keys
-- Or edit `constants/RevenueCat.ts` directly for development
+- Use Replit Secrets for both development and production
+- Access Secrets via Tools > Secrets in the left sidebar
 - App requires RevenueCat configuration to work properly
 
 ### General Issues
@@ -547,7 +545,7 @@ This moves the example code to `app-example/` and creates a clean `app/` directo
 - Clear Metro cache: `npx expo start --clear`
 
 **No subscriptions showing?**
-- Check API keys in `constants/RevenueCat.ts`
+- Check API keys are set in Replit Secrets (Tools > Secrets)
 - Verify products are configured in RevenueCat dashboard
 - Review the Profile tab for debug information
 
@@ -562,6 +560,8 @@ This Developer Framework is provided as an open-source template. Use it freely f
 
 ---
 
-**Ready to monetize your app?** Add your RevenueCat Test API key in `constants/RevenueCat.ts` and start testing subscriptions immediately on all platforms! 🧪
+**Ready to monetize your app?** Add your RevenueCat Test API key to Replit Secrets and start testing subscriptions immediately on all platforms! 🧪
+
+Open **Tools > Secrets** → Add `REVENUECAT_TEST_API_KEY` → Restart the app
 
 *Built by RevenueCat for Replit*

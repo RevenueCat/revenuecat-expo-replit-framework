@@ -26,36 +26,42 @@ export const REVENUECAT_CONFIG = {
    * Get your test API key from: https://app.revenuecat.com/projects/[your-project]/api-keys
    * Look for the key that starts with "test_"
    *
-   * You can also set this using Replit Secrets: REVENUECAT_TEST_API_KEY
+   * Set this using Replit Secrets: EXPO_PUBLIC_REVENUECAT_TEST_API_KEY
+   * Access Secrets in the left sidebar under "Tools" > "Secrets"
+   * Note: Must be prefixed with EXPO_PUBLIC_ for Expo web compatibility
    */
-  TEST_API_KEY: "insert-your-test-api-key", // e.g., 'test_abcdef1234567890'
+  TEST_API_KEY: process.env.EXPO_PUBLIC_REVENUECAT_TEST_API_KEY || "",
 
   /**
    * 🏪 REAL STORE API KEYS (FOR REAL APP STORES: App Store, Play Store, Web Billing)
    * Only needed when you're ready to publish to actual app stores
    * Get these from: https://app.revenuecat.com/projects/[your-project]/api-keys
    *
-   * You can also set these using Replit Secrets:
-   * - REVENUECAT_IOS_API_KEY
-   * - REVENUECAT_ANDROID_API_KEY
-   * - REVENUECAT_WEB_API_KEY
+   * Set these using Replit Secrets (must be prefixed with EXPO_PUBLIC_):
+   * - EXPO_PUBLIC_REVENUECAT_IOS_API_KEY
+   * - EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY
+   * - EXPO_PUBLIC_REVENUECAT_WEB_API_KEY
    */
-  IOS_API_KEY: "insert-your-apple-app-store-api-key", // e.g., 'appl_abcdef1234567890'
-  ANDROID_API_KEY: "insert-your-google-play-store-api-key", // e.g., 'goog_abcdef1234567890'
-  WEB_API_KEY: "insert-your-revenuecat-web-billing-api-key", // e.g., 'rcb_abcdef1234567890' or 'rcb_sb_abcdef1234567890'
+  IOS_API_KEY: process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY || "",
+  ANDROID_API_KEY: process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY || "",
+  WEB_API_KEY: process.env.EXPO_PUBLIC_REVENUECAT_WEB_API_KEY || "",
 
   /**
    * Configure your entitlement identifier
    * This should match the entitlement identifier you create in the RevenueCat dashboard
    * Configure entitlements in RevenueCat Dashboard > Entitlements
+   *
+   * Can also be set via environment variable: EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID
    */
-  ENTITLEMENT_ID: "premium", // Common examples: 'premium', 'pro', 'all_access'
+  ENTITLEMENT_ID: process.env.EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID || "premium",
 
   /**
    * Enable test store mode (recommended for development)
    * Set to true to use the test store, false to use production stores
+   *
+   * Can also be set via environment variable: EXPO_PUBLIC_REVENUECAT_USE_TEST_STORE
    */
-  USE_TEST_STORE: true, // Default: true for development. Change to false once you want to use a real store like Apple App Store, Google Play, or RevenueCat Web Billing.
+  USE_TEST_STORE: process.env.EXPO_PUBLIC_REVENUECAT_USE_TEST_STORE === "false" ? false : true,
 
   /**
    * Optional: Enable debug mode for development
@@ -109,24 +115,28 @@ export const validateRevenueCatConfig = (): boolean => {
   if (!apiKey || apiKey.includes("your_") || apiKey.includes("_here")) {
     if (REVENUECAT_CONFIG.USE_TEST_STORE) {
       console.error("🧪 RevenueCat TEST API key not configured!");
-      console.error(
-        "Please update constants/RevenueCat.ts with your test API key"
-      );
-      console.error("Get your test API key (starts with 'test_') from:");
-      console.error(
-        "https://app.revenuecat.com/projects/[your-project]/api-keys"
-      );
+      console.error("\n📝 To add your API key:");
+      console.error("1. Open 'Secrets' in the left sidebar (Tools > Secrets)");
+      console.error("2. Add a new secret:");
+      console.error("   - Key: EXPO_PUBLIC_REVENUECAT_TEST_API_KEY");
+      console.error("   - Value: Your test API key (starts with 'test_')");
+      console.error("3. Restart the app to load the secret");
+      console.error("\n🔑 Get your test API key from:");
+      console.error("   https://app.revenuecat.com/projects/[your-project]/api-keys");
     } else {
       console.error(
         "⚠️ RevenueCat production API key not configured for platform:",
         Platform.OS
       );
-      console.error(
-        "Please update constants/RevenueCat.ts with your production API keys"
-      );
-      console.error(
-        "Get your API keys from: https://app.revenuecat.com/projects/[your-project]/api-keys"
-      );
+      console.error("\n📝 To add your production API keys:");
+      console.error("1. Open 'Secrets' in the left sidebar (Tools > Secrets)");
+      console.error("2. Add the appropriate secret for your platform:");
+      console.error("   iOS: EXPO_PUBLIC_REVENUECAT_IOS_API_KEY");
+      console.error("   Android: EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY");
+      console.error("   Web: EXPO_PUBLIC_REVENUECAT_WEB_API_KEY");
+      console.error("3. Restart the app to load the secrets");
+      console.error("\n🔑 Get your API keys from:");
+      console.error("   https://app.revenuecat.com/projects/[your-project]/api-keys");
     }
     return false;
   }
