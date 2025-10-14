@@ -21,22 +21,57 @@ Preferred communication style: Simple, everyday language.
 
 ## RevenueCat Configuration
 
-### 🧪 Test Store Setup (Recommended Start)
+### 🔐 Using Replit Secrets (Recommended)
+
+**All API keys are now stored as environment variables using Replit Secrets for security.**
+
+### 🧪 Test Store Setup (Start Here!)
 **Start with the test store** - works on iOS, Android, and Web without connecting external stores!
 
-Use Replit Secrets (recommended) or edit `constants/RevenueCat.ts`:
-- `REVENUECAT_TEST_API_KEY` (starts with `test_`) - **start here!**
-- `REVENUECAT_ENTITLEMENT_ID` (default: `premium`)
-- `REVENUECAT_USE_TEST_STORE` (default: `true`)
+1. **Open Replit Secrets**
+   - Click "Tools" > "Secrets" in the left sidebar
+   - Or search for "Secrets" in the command palette
 
-### 🏪 Production Store Keys (Later)
-When ready for real app stores, add these secrets:
-- `REVENUECAT_IOS_API_KEY` (App Store)
-- `REVENUECAT_ANDROID_API_KEY` (Google Play)
-- `REVENUECAT_WEB_API_KEY` (RevenueCat Web Billing)
-- Set `REVENUECAT_USE_TEST_STORE=false`
+2. **Add your test API key**
+   - Click "Add new secret"
+   - Key: `REVENUECAT_TEST_API_KEY`
+   - Value: Your test API key (starts with `test_`)
+   - Get it from: https://app.revenuecat.com/projects/[your-project]/api-keys
 
-After setting secrets, restart the dev server to reload with keys.
+3. **Restart the dev server**
+   - The app will automatically pick up the new secret
+   - Look for "🧪 Running in TEST STORE mode" in the console
+
+### 🏪 Production Store Keys (When Ready to Launch)
+When ready for real app stores, add these secrets using the same process:
+
+**iOS (App Store):**
+- Key: `REVENUECAT_IOS_API_KEY`
+- Value: Your iOS API key (starts with `appl_`)
+
+**Android (Google Play):**
+- Key: `REVENUECAT_ANDROID_API_KEY`
+- Value: Your Android API key (starts with `goog_`)
+
+**Web (RevenueCat Web Billing):**
+- Key: `REVENUECAT_WEB_API_KEY`
+- Value: Your web API key (starts with `rcb_`)
+
+**Switch to production mode:**
+- Key: `REVENUECAT_USE_TEST_STORE`
+- Value: `false`
+
+### 📌 Optional Configuration Secrets
+
+**Custom Entitlement ID:**
+- Key: `REVENUECAT_ENTITLEMENT_ID`
+- Value: Your entitlement ID (default: `premium`)
+
+**Why Use Secrets?**
+- ✅ API keys never appear in git history
+- ✅ Easy to rotate if compromised
+- ✅ Works seamlessly in development and deployment
+- ✅ No accidental commits of sensitive data
 
 ## System Architecture
 
