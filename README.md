@@ -223,7 +223,7 @@ This is where your app becomes **monetizable**.
 - Set up introductory offers/free trials
 - Upload App Store Connect API key to RevenueCat
 - Add iOS app to your RevenueCat project
-- Add secret: `REVENUECAT_IOS_API_KEY` with your iOS API key
+- Add secret: `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY` with your iOS API key
 
 **Android (Google Play Console):**
 - Create subscription products in Google Play Console
@@ -231,16 +231,16 @@ This is where your app becomes **monetizable**.
 - Set up promotional offers
 - Upload Google Play service account to RevenueCat
 - Add Android app to your RevenueCat project
-- Add secret: `REVENUECAT_ANDROID_API_KEY` with your Android API key
+- Add secret: `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY` with your Android API key
 
 **Web (via RevenueCat Web Billing):**
 - Connect your Stripe account to RevenueCat
 - Add a Web Billing app in your RevenueCat project
-- Add secret: `REVENUECAT_WEB_API_KEY` with your Web API key
+- Add secret: `EXPO_PUBLIC_REVENUECAT_WEB_API_KEY` with your Web API key
 
 **Switch to Production:**
-- Add secret: `REVENUECAT_USE_TEST_STORE` with value `false`
-- Or simply remove the `REVENUECAT_TEST_API_KEY` secret and the app will use production keys
+- Add secret: `EXPO_PUBLIC_REVENUECAT_USE_TEST_STORE` with value `false`
+- Or simply remove the `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY` secret and the app will use production keys
 
 ### 🔄 Transitioning from Test Store to Production
 
@@ -249,7 +249,7 @@ When you're ready to move from testing to real app store distribution:
 1. **Keep your test setup intact** - you can switch back anytime
 2. **Add production API keys** using Replit Secrets (see section 2 above)
 3. **Test the transition** by adding the secret:
-   - Key: `REVENUECAT_USE_TEST_STORE`
+   - Key: `EXPO_PUBLIC_REVENUECAT_USE_TEST_STORE`
    - Value: `false`
    - Restart the app
 4. **Switch back to test mode** anytime:
@@ -405,15 +405,15 @@ npx eas submit --platform android --latest
 The app reads from these environment variables:
 
 **Development (Test Store):**
-- `REVENUECAT_TEST_API_KEY` - Your test API key
-- `REVENUECAT_USE_TEST_STORE=true` - Enable test mode (default)
-- `REVENUECAT_ENTITLEMENT_ID` - Your entitlement ID (optional, defaults to "premium")
+- `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY` - Your test API key
+- `EXPO_PUBLIC_REVENUECAT_USE_TEST_STORE=true` - Enable test mode (default)
+- `EXPO_PUBLIC_REVENUECAT_ENTITLEMENT_ID` - Your entitlement ID (optional, defaults to "premium")
 
 **Production (Real App Stores):**
-- `REVENUECAT_IOS_API_KEY` - iOS App Store API key
-- `REVENUECAT_ANDROID_API_KEY` - Google Play API key  
-- `REVENUECAT_WEB_API_KEY` - Web Billing API key
-- `REVENUECAT_USE_TEST_STORE=false` - Disable test mode
+- `EXPO_PUBLIC_REVENUECAT_IOS_API_KEY` - iOS App Store API key
+- `EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY` - Google Play API key
+- `EXPO_PUBLIC_REVENUECAT_WEB_API_KEY` - Web Billing API key
+- `EXPO_PUBLIC_REVENUECAT_USE_TEST_STORE=false` - Disable test mode
 
 **Security Best Practices:**
 - ✅ All keys are stored in Replit Secrets (encrypted)
@@ -562,6 +562,6 @@ This Developer Framework is provided as an open-source template. Use it freely f
 
 **Ready to monetize your app?** Add your RevenueCat Test API key to Replit Secrets and start testing subscriptions immediately on all platforms! 🧪
 
-Open **Tools > Secrets** → Add `REVENUECAT_TEST_API_KEY` → Restart the app
+Open **Tools > Secrets** → Add `EXPO_PUBLIC_REVENUECAT_TEST_API_KEY` → Restart the app
 
 *Built by RevenueCat for Replit*
